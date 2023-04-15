@@ -4,6 +4,22 @@ export type data = {
     studentId: string,
     name: string
 }
+/////////////////////////
+export type std = {
+    name:  string,
+    studentId:  string ,
+    chatId: string,
+    roomId: string
+}
+export type data2 = {
+    name:  string, required: true ,
+    phone:  number,
+    students: std[],
+    address:  string, 
+    password:  string,
+    token:  string ,
+}
+////////////////////////////
 export const data_sample = {
     chatId: '',
     roomId: '',
@@ -15,5 +31,5 @@ export interface int_context {
     completed: data[],
     newuser: data[],
     state: boolean,
-    fetchData: () => void
+    setData: (arg0: data2) => void
 }
