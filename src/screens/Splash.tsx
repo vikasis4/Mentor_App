@@ -3,6 +3,7 @@ import React from 'react'
 import { font } from '../variables/files'
 import { VerifyContext } from '../context/Verify'
 import { StudentContext } from '../context/Students'
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Splash = (props: any) => {
 
@@ -18,6 +19,7 @@ const Splash = (props: any) => {
             setTimera(true)
         }, 2000);
         const execute = async () => {
+            // await AsyncStorage.removeItem('token');
             if (verify) {
                 if (await verify.runVerify()) {
                     setTimerb(true)
@@ -38,10 +40,10 @@ const Splash = (props: any) => {
 
     React.useEffect(() => {
         if (timera && timerb && timerc) {
-            props.navigation.navigate('Home')
+            props.navigation.replace('Home')
         }
         if (timerd && timera) {
-            props.navigation.navigate('Login')
+            props.navigation.replace('Login')
         }
     })
 

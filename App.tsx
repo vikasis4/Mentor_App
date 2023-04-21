@@ -8,7 +8,7 @@ function App(): JSX.Element {
   return (
     <StudentProvider>
       <VerifyProvider>
-        <MainStack />
+          <MainStack />
       </VerifyProvider>
     </StudentProvider>
   );

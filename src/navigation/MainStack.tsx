@@ -5,6 +5,7 @@ import TopNav from './TopNav';
 import Profile from '../screens/Profile';
 import Splash from '../screens/Splash';
 import Login from '../screens/Login';
+import Call from '../screens/Call';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const MainStack = () => {
           <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={TopNav} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="Call" component={Call} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>

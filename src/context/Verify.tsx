@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Alert from '../components/Alert'
-import { VERIFY } from '@env'
+import { VERIFY } from '../../types/link'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StudentContext } from './Students';
 import { int_context } from '../interface/context_verify'
@@ -15,10 +15,11 @@ const VerifyProvider = ({ children }: any) => {
     const student = React.useContext(StudentContext)
 
     const runVerify = async () => {
-        token = await AsyncStorage.getItem('token')
+        token = await AsyncStorage.getItem('token');
+        
         const fetchData = async () => {
             var verify = false
-            await axios.post(VERIFY, { token }).then((response) => {
+            await axios.post(VERIFY, { token }).then((response) => {                
                 if (response.data.status === 'success') {
                     if (student) {
                         student.setData(response.data.value);
@@ -31,7 +32,8 @@ const VerifyProvider = ({ children }: any) => {
             return verify
         }
         if (token !== null) {
-            return await fetchData()
+            var tike = await fetchData()
+            return tike
         } else {
             return false
         }
