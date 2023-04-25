@@ -6,12 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StudentContext } from './Students';
 import { int_context } from '../interface/context_verify'
 
-const VerifyContext = React.createContext<int_context | null>(null);
+const VerifyContext = React.createContext();
 
 
-const VerifyProvider = ({ children }: any) => {
+const VerifyProvider = ({ children }) => {
 
-    var token = React.useRef<string | null>(null).current;
+    var token = React.useRef(null).current;
     const student = React.useContext(StudentContext)
 
     const runVerify = async () => {
@@ -19,13 +19,17 @@ const VerifyProvider = ({ children }: any) => {
         
         const fetchData = async () => {
             var verify = false
-            await axios.post(VERIFY, { token }).then((response) => {                
+            await axios.post(VERIFY, { token }).then((response) => {                                
                 if (response.data.status === 'success') {
                     if (student) {
                         student.setData(response.data.value);
                         verify = true;
                     }
-                } else {
+                }else if (response.data.status === 'expire'){
+                    verify = false;
+                    Alert('You were logged out, as you tried to login at other device, Login again')
+                }
+                 else {
                     Alert('Something Went Wrong, please try again later')
                 }
             })

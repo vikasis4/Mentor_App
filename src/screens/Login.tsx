@@ -18,14 +18,19 @@ const Login = (props: any) => {
     const [load, setLoad] = React.useState(false)
 
     async function handleSubmit(): Promise<void> {
-        // setLoad(true)
         axios.post(LOGIN, { phone, password: pass }).then(async (response) => {
+            console.log(response.data);
+            
             if (response.data.status === 'true') {
                 await AsyncStorage.setItem('token', response.data.token);
                 if (verify) {
                     verify.runVerify()
                 }
-            } else {
+            } 
+            else if (response.data.status === 'true') {
+                Alert('No User Found with this Phone number ')
+            }
+            else {
                 Alert('Something went wrong, please try again later')
             }
         })

@@ -1,28 +1,32 @@
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { StyleSheet, Text, View, StatusBar, ScrollView } from 'react-native'
 import TopMenuInfo from '../../components/TopMenuInfo'
 import { font } from '../../variables/files'
-import { startTheCall, endTheCall } from '../../functions/webrtc';
+import { StudentContext } from '../../context/Students'
+import Map from './Map'
 
 const Pending = (props: any) => {
+
+  const student = React.useContext(StudentContext);
+  const [list, setList] = React.useState<any>();
+
+
+  React.useEffect(() => {
+    if (student.news.length > 0) {
+      setList((student.news).map((data: any) => { return <Map data={data} key={(Math.random() * 10000).toString()} /> }))
+    }
+  }, [student])
 
 
   return (
     <>
       <StatusBar animated={true} barStyle='dark-content' backgroundColor='white' />
-      <TopMenuInfo />
-      <View style={styles.main}>
-        <View style={styles.cont}>
-          <Text style={styles.txt}>Vikas siri</Text>
-          {/* <TouchableOpacity onPress={() => props.navigation.navigate('Call')}> */}
-          <TouchableOpacity onPress={() => startTheCall()}>
-            <Text style={styles.btn}>Koll</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => endTheCall()}>
-            <Text style={styles.btn}>end</Text>
-          </TouchableOpacity>
+      <TopMenuInfo data={{ name: "Pending", count: student.pending.length }} />
+      <ScrollView style={{ flex: 1 }}>
+        <View style={styles.list}>
+          {list}
         </View>
-      </View>
+      </ScrollView>
     </>
   )
 }
@@ -30,28 +34,12 @@ const Pending = (props: any) => {
 export default Pending
 
 const styles = StyleSheet.create({
-  btn: {
-    color: 'white',
-    fontFamily: font.f3,
-    fontSize: 18,
-    backgroundColor: 'black',
-    paddingHorizontal: 30,
-    borderRadius: 6
-  },
-  main: {
-    alignItems: 'center'
-  },
-  cont: {
-    height: 30,
-    width: '90%',
-    backgroundColor: 'gray',
+  list: {
+    gap: 18,
+    paddingVertical: 20,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  txt: {
-    color: 'white',
-    fontFamily: font.f3,
-    fontSize: 18
+    flexWrap: 'wrap'
   }
 })
