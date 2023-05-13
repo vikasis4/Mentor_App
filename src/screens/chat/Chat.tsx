@@ -15,7 +15,7 @@ const Chat = (props: any) => {
     const [data, setData] = useState<any>([]);
     const [msg, setMsg] = useState('');
     const webrtc = React.useContext(WebRtcContext);
-    const socket = webrtc.socket
+    const socket = webrtc.socket;
     const [list, setList] = useState<any>([]);
     const [newmsg, setNewmsg] = useState<any>(null);
     const scrollViewRef = React.useRef<any>();

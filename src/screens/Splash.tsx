@@ -39,10 +39,13 @@ const Splash = (props: any) => {
     }, [student])
 
     React.useEffect(() => {
+        
         if (timera && timerb && timerc) {
+            console.log('ONE');
             props.navigation.replace('Home')
         }
         if (timerd && timera) {
+            console.log('TWO');
             props.navigation.replace('Login')
         }
     })

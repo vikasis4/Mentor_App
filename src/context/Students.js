@@ -10,6 +10,7 @@ const StudentProvider = ({ children }) => {
     const [pending, setPending] = React.useState();
     const [completed, setCompleted] = React.useState();
     const [news, setNews] = React.useState();
+    const [mentorId, setMentorId] = React.useState('');
 
     var val = (new Date().getDay()) % 2 === 0 ? 0 : 1;
     var fxn = (value) => { return value % 2 === 0 ? 0 : 1 };
@@ -21,19 +22,23 @@ const StudentProvider = ({ children }) => {
     };
     ////////////
 
+    const updateValue = () => {
+        setNews(data.filter((element, index) => (element.status === 'new' && fxn(index) === val)))
+        setPending(data.filter((element, index) => (element.status === 'pending' && fxn(index) === val)))
+        setCompleted(data.filter((element, index) => (element.status === 'completed' && fxn(index) === val)))
+        setState(true);
+    }
     React.useEffect(() => {
-        if (data) {
-            info.count = data.length
-            setNews(data.filter((element, index) => (element.status === 'new' && fxn(index) === val)))
-            setPending(data.filter((element, index) => (element.status === 'pending' && fxn(index) === val)))
-            setCompleted(data.filter((element, index) => (element.status === 'completed' && fxn(index) === val)))
-            setState(true);
+        if (data.length > 0) {
+            info.count = data.length;
+            setState(false);
+            updateValue()
         }
     }, [data])
 
 
     return (
-        <StudentContext.Provider value={{ pending, news, completed, setData, state, info }}>
+        <StudentContext.Provider value={{setMentorId, mentorId, pending, news, completed, data, setData, state, info, updateValue }}>
             {children}
         </StudentContext.Provider>
     )

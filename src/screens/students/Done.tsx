@@ -11,7 +11,7 @@ const Done = () => {
 
   React.useEffect(() => {
     if (student.completed.length > 0) {
-      setList((student.news).map((data: any) => { return <Map data={data} key={(Math.random() * 10000).toString()} /> }))
+      setList((student.completed).map((data: any) => { return <Map data={data} key={(Math.random() * 10000).toString()} /> }))
     }
   }, [student])
 

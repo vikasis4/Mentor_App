@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, StatusBar, TextInput, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,Platform, StatusBar,KeyboardAvoidingView, TextInput, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { login } from '../variables/images'
 import { font } from '../variables/files'
@@ -11,22 +11,20 @@ import { StudentContext } from '../context/Students'
 
 const Login = (props: any) => {
 
-    const [phone, setPhone] = React.useState('Enter Your Phone Number')
-    const [pass, setPass] = React.useState('Enter Your Password')
+    const [phone, setPhone] = React.useState<any>(null)
+    const [pass, setPass] = React.useState<any>(null)
     const verify = React.useContext(VerifyContext)
     const student = React.useContext(StudentContext)
     const [load, setLoad] = React.useState(false)
 
     async function handleSubmit(): Promise<void> {
         axios.post(LOGIN, { phone, password: pass }).then(async (response) => {
-            console.log(response.data);
-            
             if (response.data.status === 'true') {
                 await AsyncStorage.setItem('token', response.data.token);
                 if (verify) {
                     verify.runVerify()
                 }
-            } 
+            }
             else if (response.data.status === 'true') {
                 Alert('No User Found with this Phone number ')
             }
@@ -36,7 +34,6 @@ const Login = (props: any) => {
         })
     }
     React.useEffect(() => {
-        console.log(student);
         if (student) {
             if (student.state) {
                 props.navigation.navigate('Home')
@@ -46,28 +43,37 @@ const Login = (props: any) => {
 
     return (
         <>
-            <View style={[styles.tint, load ? { zIndex: 10 } : { zIndex: -10 }]}>
+            {/* <View style={[styles.tint, load ? { zIndex: 10 } : { zIndex: -10 }]}>
                 <Text style={styles.load}>Loading...</Text>
-            </View>
-            <View style={{ backgroundColor: 'white', flex: 1, justifyContent:'space-around', alignItems: 'center' }}>
-                <StatusBar animated={true} barStyle='dark-content' backgroundColor='white' />
+            </View> */}
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{flex:1}}>
+
+                <View style={styles.middle}>
+                    <StatusBar animated={true} barStyle='dark-content' backgroundColor='white' />
                     <Image style={styles.img} source={login} />
                     <Text style={styles.text}>Login</Text>
                     <TextInput
                         style={styles.input}
                         onChangeText={(e) => setPhone(e)}
                         value={phone}
+                        placeholder='Enter Phone Number'
                         keyboardType="numeric"
                     />
                     <TextInput
                         style={styles.input}
+                        placeholder='Enter Password'
                         onChangeText={(e) => setPass(e)}
                         value={pass}
                     />
-                <TouchableOpacity activeOpacity={0.8} onPress={handleSubmit} style={styles.btn}>
-                    <Text style={styles.txt}>Login</Text>
-                </TouchableOpacity>
-            </View >
+                </View >
+                <View style={styles.last}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={handleSubmit} style={styles.btn}>
+                        <Text style={styles.txt}>Login</Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
         </>
     )
 }
@@ -75,11 +81,20 @@ const Login = (props: any) => {
 export default Login
 
 const styles = StyleSheet.create({
+    middle: {
+        backgroundColor: 'white',
+        flex: 10,
+        justifyContent: 'center',
+        gap: 30,
+        alignItems: 'center'
+    },
+    last: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white'
+    },
     tint: {
-        position: 'absolute',
-        bottom: 0,
-        top: 0,
-        left: 0,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
@@ -94,8 +109,7 @@ const styles = StyleSheet.create({
         fontSize: 42
     },
     btn: {
-        marginTop:20,
-        backgroundColor: 'gray',
+        backgroundColor: '#3E75E1',
         width: '90%',
         borderRadius: 4,
     },
@@ -110,12 +124,12 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'gray',
         borderRadius: 6,
-        position:'relative',
+        position: 'relative',
+        backgroundColor: 'black',
         width: '90%',
-        color: 'gray',
+        color: 'white',
         fontFamily: font.f3,
         paddingHorizontal: 20,
-        marginTop: 20
     },
     img: {
         height: 300,
@@ -126,6 +140,5 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'center',
         fontSize: 42,
-        marginTop: 20
     },
 })

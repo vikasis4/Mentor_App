@@ -8,6 +8,7 @@ import Login from '../screens/Login';
 import Call from '../screens/Call';
 import StudentMenu from '../screens/StudentMenu';
 import Chat from '../screens/chat/Chat';
+import Notes from '../screens/notes/Notes';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ const MainStack = () => {
           <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
           <Stack.Screen name="StudentMenu" component={StudentMenu} options={{ headerShown: false }} />
           <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
+          <Stack.Screen name="Notes" component={Notes} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

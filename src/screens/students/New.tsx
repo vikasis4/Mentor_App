@@ -10,7 +10,7 @@ const New = () => {
   const [list, setList] = React.useState<any>();
 
   React.useEffect(() => {
-    if (student.news.length > 0) {
+    if (student.state) {
       setList((student.news).map((data: any) => { return <Map data={data} key={(Math.random() * 10000).toString()} /> }))
     }
   }, [student])

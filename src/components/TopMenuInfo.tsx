@@ -9,7 +9,10 @@ const TopMenuInfo = (props: any) => {
     const navigation = useNavigation<any>();
     const student = React.useContext(StudentContext);
     const num = student.info.count;
-    const cout = student.pending.length+student.news.length+student.completed.length
+    const [count, setCount] = React.useState()
+    React.useEffect(() => {
+        setCount(student.pending.length + student.news.length)
+    }, [student])
 
     return (
         <View style={styles.main}>
@@ -17,8 +20,8 @@ const TopMenuInfo = (props: any) => {
                 <Text style={styles.txt1}>Total Students :- {num}</Text>
                 <Text style={styles.txt1}>{props.data.name} Students :- {props.data.count}</Text>
             </View>
-            <View style={{flexDirection: 'row', justifyContent:'space-between', alignItems: 'center', marginBottom:20}}>
-                <Text style={styles.txt2}>{student.info.batch} / {cout}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                <Text style={styles.txt2}>{student.info.batch} / {count}</Text>
                 <TouchableOpacity style={{ backgroundColor: 'white', alignItems: 'center' }} onPress={() => navigation.navigate('Profile')} >
                     <Text style={styles.btn}>Profile</Text>
                 </TouchableOpacity>
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
     txt2: {
         fontFamily: font.f3,
         color: 'green',
-        borderBottomWidth:1,
+        borderBottomWidth: 1,
         borderColor: 'green'
     }
 })

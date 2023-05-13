@@ -3,6 +3,7 @@ import MainStack from './src/navigation/MainStack';
 import { StudentProvider } from './src/context/Students'
 import { VerifyProvider } from './src/context/Verify';
 import { WebRtcProvider } from './src/context/WebRtc';
+import { TimerProvider } from './src/context/Timer';
 
 function App(): JSX.Element {
 
@@ -10,7 +11,9 @@ function App(): JSX.Element {
     <StudentProvider>
       <VerifyProvider>
         <WebRtcProvider>
-          <MainStack />
+          <TimerProvider>
+            <MainStack />
+          </TimerProvider>
         </WebRtcProvider>
       </VerifyProvider>
     </StudentProvider>
