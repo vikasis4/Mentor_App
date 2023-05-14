@@ -10,31 +10,38 @@ const Call = (props: any) => {
 
   const context = React.useContext(WebRtcContext);
   const [signal, setSignal] = useState(false);
+  const [mute, setMute] = useState(true);
   const [onGoing, setOnGoing] = useState(false);
   const { name, roomId, chatId, studentId, status, fcm_token } = props.route.params;
-  var { remoteMediaStream, connectionClosed, socket_W, setConnectionClosed, captureMedia, statuss, setStatus, setRemoteId, createOffer, remoteId, myId, closeCall } = context;
+  var { remoteMediaStream, muteMic, connectionClosed, socket_W, setConnectionClosed, captureMedia, statuss, setStatus, setRemoteId, createOffer, remoteId, myId, closeCall } = context;
 
   useEffect(() => {
-    if (!onGoing) { 
+    if (!onGoing) {
       captureMedia();
       sendFcm_Call({ fcmToken: fcm_token, socketId: myId })
     }
   }, [])
-  
+
   useEffect(() => {
     if (remoteId && myId) {
       setOnGoing(true)
       setSignal(true);
     }
   }, [myId, remoteId])
-  
+
   useEffect(() => {
-    if (connectionClosed && onGoing) {
+    console.log("connectionClosed" ,connectionClosed);
+    
+    if (connectionClosed) {
       setOnGoing(false)
       setConnectionClosed(false)
       setStatus('Pending');
       setRemoteId(null);
+      setMute(true);
+      console.log('yes');
+      
       closeCall();
+      console.log('no');
       props.navigation.goBack();
     }
   }, [context, connectionClosed])
@@ -64,6 +71,9 @@ const Call = (props: any) => {
         </>
       }
       <View style={styles.cont}>
+        <Text style={[styles.btn2, {backgroundColor: mute ? 'orange' : 'lime'}]} onPress={() => { muteMic(!mute); setMute(!mute) }} >
+         {mute ? 'Mute the Mike' : 'unMute'}
+        </Text>
         <Text style={styles.btn} onPress={createOffer} >
           Start the Call
         </Text>
@@ -87,5 +97,6 @@ const styles = StyleSheet.create({
   signal: { flexDirection: 'row', width: '90%', gap: 20, justifyContent: 'center', alignItems: 'center', borderRadius: 20, paddingVertical: 10, backgroundColor: 'black', marginVertical: 20 },
   sig: { height: 14, width: 14, borderRadius: 50, elevation: 10 },
   btn: { backgroundColor: 'skyblue', textAlign: 'center', width: '90%', fontFamily: font.f4, paddingVertical: 10, borderRadius: 6, color: 'black' },
+  btn2: { textAlign: 'center', width: '90%', fontFamily: font.f4, paddingVertical: 10, borderRadius: 6, color: 'black' },
   cont: { paddingBottom: 20, position: 'absolute', width: '100%', bottom: 0, gap: 10, alignItems: 'center' }
 })
