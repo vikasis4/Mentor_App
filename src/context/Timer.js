@@ -11,6 +11,7 @@ const TimerProvider = ({ children }) => {
         setSeconds(0)
         setMins(Mins + 1)
     }
+
     React.useEffect(() => {
         if (status) {
             var time = setTimeout(() => {
@@ -21,7 +22,7 @@ const TimerProvider = ({ children }) => {
     })
 
     return (
-        <TimerContext.Provider value={{ seconds, Mins, setStatus }}>
+        <TimerContext.Provider value={{ seconds, Mins, setStatus, setSeconds, setMins }}>
             {children}
         </TimerContext.Provider>
     )

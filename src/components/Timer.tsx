@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     txt: {
         textAlign: 'center',
         marginTop: 8,
-        color: 'black',
         fontFamily: font.f3
     }
 })
